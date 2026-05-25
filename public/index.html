@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>EVE Fit 推荐器</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <section class="hero">
+        <div>
+          <p class="eyebrow">New Eden fitting scout</p>
+          <h1>EVE Fit 推荐器</h1>
+          <p class="lede">选择玩法、账号和预算，从接入的 Workbench Fit 仓库里筛出可直接复制进游戏的装配。</p>
+        </div>
+        <div class="source-pill">数据源：EVE Workbench API</div>
+      </section>
+
+      <section class="workspace">
+        <form id="fitForm" class="control-panel">
+          <div class="field">
+            <label for="activity">玩法</label>
+            <select id="activity" name="activity">
+              <option value="pve">PVE 刷怪/任务</option>
+              <option value="pvp">PVP 小队/单收</option>
+              <option value="exploration">探索</option>
+              <option value="mining">挖矿</option>
+              <option value="abyss">深渊</option>
+              <option value="hauling">运输</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="ship">想开什么船</label>
+            <input id="ship" name="ship" placeholder="例如 Heron / Caracal / Venture" autocomplete="off" />
+          </div>
+          <div class="two-columns">
+            <div class="field">
+              <label for="clone">账号</label>
+              <select id="clone" name="clone">
+                <option value="alpha">Alpha 优先</option>
+                <option value="omega">Omega</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="budget">预算</label>
+              <select id="budget" name="budget">
+                <option value="low">低预算</option>
+                <option value="mid">中预算</option>
+                <option value="high">高预算</option>
+              </select>
+            </div>
+          </div>
+          <button class="primary" type="submit">推荐 Fit</button>
+          <p class="hint">第一版会优先请求 EVE Workbench 公开数据；接口失败时显示内置样例，方便验证流程。</p>
+        </form>
+
+        <section class="results-panel">
+          <div class="results-head">
+            <div>
+              <p class="eyebrow">Recommendations</p>
+              <h2>候选装配</h2>
+            </div>
+            <button id="shareBtn" class="ghost" type="button">复制分享链接</button>
+          </div>
+          <div id="status" class="status">选择条件后点击推荐。</div>
+          <div id="results" class="results"></div>
+        </section>
+      </section>
+
+      <section class="feedback-panel">
+        <div>
+          <p class="eyebrow">Feedback loop</p>
+          <h2>反馈收集</h2>
+          <p>验证阶段最重要的是知道推荐准不准、装不装得上、会不会太贵。</p>
+        </div>
+        <form id="feedbackForm" class="feedback-form">
+          <input id="feedbackFit" name="fit" placeholder="Fit 名称或链接" />
+          <select id="feedbackType" name="type">
+            <option value="useful">好用</option>
+            <option value="too-expensive">太贵</option>
+            <option value="cannot-fit">装不上</option>
+            <option value="wrong-activity">场景不对</option>
+            <option value="outdated">版本过期</option>
+          </select>
+          <button class="secondary" type="submit">提交反馈</button>
+        </form>
+      </section>
+    </main>
+    <script src="/app.js"></script>
+  </body>
+</html>
