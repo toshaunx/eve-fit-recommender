@@ -556,7 +556,7 @@ async function serveStatic(req, res) {
   const url = new URL(req.url, `http://${req.headers.host}`);
   const pathname = url.pathname === "/" ? "/index.html" : url.pathname;
   const safePath = normalize(pathname).replace(/^(\.\.[/\\])+/, "");
-  const filePath = join(publicDir, safePath);
+  let filePath = join(publicDir, safePath);
   if (!filePath.startsWith(publicDir)) {
     res.writeHead(403);
     res.end("Forbidden");
@@ -569,6 +569,19 @@ async function serveStatic(req, res) {
     });
     res.end(file);
   } catch {
+    if (!extname(filePath)) {
+      filePath = `${filePath}.html`;
+      try {
+        const file = await readFile(filePath);
+        res.writeHead(200, {
+          "content-type": mimeTypes[extname(filePath)] || "application/octet-stream",
+        });
+        res.end(file);
+        return;
+      } catch {
+        // Fall through to 404.
+      }
+    }
     res.writeHead(404);
     res.end("Not found");
   }
